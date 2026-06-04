@@ -23,7 +23,9 @@ const io = new Server(server, {
     cors: {
         origin: process.env.CLIENT_URL || "*",
         methods: ["GET", "POST"]
-    }
+    },
+    pingInterval: 10000,
+    pingTimeout: 1000 * 60 * 5,
 });
 
 app.use(cors());
