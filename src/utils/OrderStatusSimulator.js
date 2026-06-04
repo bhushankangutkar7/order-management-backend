@@ -20,10 +20,6 @@ const getNextStatus = (currentStatus) => {
 
 // Simulate order status updates
 export const startOrderStatusSimulator = (app, intervalMs = 5000) => {
-  console.log(
-    `Order Status Simulator started with interval: ${intervalMs}ms`
-  );
-
   setInterval(async () => {
     try {
       // Find orders that are not yet delivered
@@ -43,15 +39,11 @@ export const startOrderStatusSimulator = (app, intervalMs = 5000) => {
 
             // Emit update to all connected clients listening to this order
             emitOrderStatusUpdate(app, order._id.toString(), newStatus, order);
-
-            console.log(
-              `Order ${order._id} updated to: ${newStatus}`
-            );
           }
         }
       }
     } catch (error) {
-      console.error("Error in order status simulator:", error);
+      throw error;
     }
   }, intervalMs);
 };
@@ -83,10 +75,8 @@ export const updateOrderStatusManually = async (app, orderId, newStatus) => {
     // Emit update to all connected clients
     emitOrderStatusUpdate(app, orderId, newStatus, order);
 
-    console.log(`Order ${orderId} manually updated to: ${newStatus}`);
     return order;
   } catch (error) {
-    console.error("Error updating order status manually:", error);
     throw error;
   }
 };

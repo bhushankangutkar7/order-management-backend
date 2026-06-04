@@ -9,7 +9,6 @@ const fetchAllOrders = async (req, res) => {
     });
     res.json(orders);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Failed to fetch movies" });
   }
 };
@@ -21,7 +20,6 @@ const createOrder = async (req, res) => {
     await order.save();
     res.json(order);
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: "Failed to create order" });
   }
 };
@@ -43,7 +41,6 @@ const updateOrderStatus = async (req, res) => {
       order: updatedOrder
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ error: error.message || "Failed to update order status" });
   }
 };

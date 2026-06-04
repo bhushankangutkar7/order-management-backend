@@ -10,7 +10,6 @@ const getAllMenuItems = async (req, res) => {
       data: menuItems
     });
   } catch (error) {
-    console.error(error);
     res.status(500).json({ 
       status: 500, 
       success: false, 

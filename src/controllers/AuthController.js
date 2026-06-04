@@ -22,7 +22,6 @@ const Login = async (req, res) => {
 
     res.json({ status: 200, success: true, message: "Login Success", token });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ status: 500, success: false, message: "Server error, try again later" });
   }
 };
@@ -47,7 +46,6 @@ const Register = async (req, res) => {
     res.json({ status: 200, success: true, message: "User registered successfully", token });
 
   } catch (err) {
-    console.error(err);
     res.status(500).json({ status: 500, success: false, message: "Registration failed" });
   }
 };
