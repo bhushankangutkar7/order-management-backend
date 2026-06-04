@@ -34,17 +34,17 @@ const Register = async (req, res) => {
     if (existingUser) {
       return res.status(400).json({ status: 400, success: false, message: "User already exists" });
     }
-
+    
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
     const newUser = new User({ firstName, lastName, userName: email, email, password: hashedPassword, role: "buyer" });
     await newUser.save();
-
-    const token = generateJwtToken(
+    
+    const token = await generateJwtToken(
       { _id: newUser._id.toString(), role: newUser.role }
     );
-
+    
     res.json({ status: 200, success: true, message: "User registered successfully", token });
-
+    
   } catch (err) {
     res.status(500).json({ status: 500, success: false, message: "Registration failed" });
   }
