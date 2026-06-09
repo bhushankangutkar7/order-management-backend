@@ -20,9 +20,18 @@ const Login = async (req, res) => {
       { _id: user._id.toString(), role: user.role }
     );
 
-    res.json({ status: 200, success: true, message: "Login Success", token });
+    res.status(200).json({ 
+      status: 200, 
+      success: true, 
+      message: "Login Success", 
+      token 
+    });
   } catch (err) {
-    res.status(500).json({ status: 500, success: false, message: "Server error, try again later" });
+    res.status(err.status || 500).json({ 
+      status: err.status || 500, 
+      success: false, 
+      message: err.message || "Internal Server Error, please try again"
+    });
   }
 };
 
@@ -32,7 +41,11 @@ const Register = async (req, res) => {
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
-      return res.status(400).json({ status: 400, success: false, message: "User already exists" });
+      return res.status(400).json({ 
+        status: 400, 
+        success: false, 
+        message: "User already exists"
+      });
     }
     
     const hashedPassword = bcrypt.hashSync(password, saltRounds);
@@ -43,10 +56,19 @@ const Register = async (req, res) => {
       { _id: newUser._id.toString(), role: newUser.role }
     );
     
-    res.json({ status: 200, success: true, message: "User registered successfully", token });
+    res.status(201).json({ 
+      status: 201, 
+      success: true, 
+      message: "User registered successfully", 
+      token 
+    });
     
   } catch (err) {
-    res.status(500).json({ status: 500, success: false, message: "Registration failed" });
+    res.status(err.status || 500).json({ 
+      status: err.status || 500, 
+      success: false, 
+      message: err.message || "Internal Server Error, please try again"
+    });
   }
 };
 
@@ -68,11 +90,17 @@ const verifyToken = async (req, res) => {
 
     return res
       .status(200)
-      .json({ status: 200, success: true, message: "Token is valid" });
+      .json({ 
+        status: 200, 
+        success: true, 
+        message: "Token is valid"
+      });
   } catch (err) {
-    return res
-      .status(401)
-      .json({ status: 401, success: false, message: "Invalid or expired token" });
+    res.status(err.status || 500).json({ 
+      status: err.status || 500, 
+      success: false, 
+      message: err.message || "Internal Server Error, please try again"
+    });
   }
 };
 

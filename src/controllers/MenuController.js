@@ -10,10 +10,10 @@ const getAllMenuItems = async (req, res) => {
       data: menuItems
     });
   } catch (error) {
-    res.status(500).json({ 
-      status: 500, 
+    res.status(error.status || 500).json({ 
+      status: error.status || 500, 
       success: false, 
-      message: "Failed to fetch menu items" 
+      message: error.message || "Internal Server Error, please try again"
     });
   }
 };
